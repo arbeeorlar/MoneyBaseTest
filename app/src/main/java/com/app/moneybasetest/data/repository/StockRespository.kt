@@ -10,11 +10,11 @@ import javax.inject.Inject
 
 
 
-class StockRespository @Inject constructor(
+class StockRepository @Inject constructor(
     private val apiService: ApiService
-) : StockRespositoryInterface {
+) : StockRepositoryInterface {
 
-    override suspend fun getAllStock(): Flow<DataState<GetAllSummaryResponseModel>> = flow {
+    override suspend fun getAllStocks(): Flow<DataState<GetAllSummaryResponseModel>> = flow {
         emit(DataState.Loading)
         try {
             val allStockItemsResult = apiService.getAllSummary()

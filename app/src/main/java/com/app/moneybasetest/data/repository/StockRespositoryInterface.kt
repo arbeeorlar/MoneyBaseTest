@@ -6,7 +6,7 @@ import com.app.moneybasetest.util.network.DataState
 import kotlinx.coroutines.flow.Flow
 
 
-interface StockRespositoryInterface {
-    suspend fun getAllStock(): Flow<DataState<GetAllSummaryResponseModel>>
+interface StockRepositoryInterface {
+    suspend fun getAllStocks(): Flow<DataState<GetAllSummaryResponseModel>>
     suspend fun getStockDetail(stockSymbol: String): Flow<DataState<GetItemSummaryResponseModel>>
 }

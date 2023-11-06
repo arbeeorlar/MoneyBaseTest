@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">MoneyBaseTest</string>
+    <string name="page_title">Yahoo Finance API</string>
+    <string name="subtext">This API helps to query for all information about finance summary, stocks, quotes, movers, etc… as on finance.yahoo.com</string>
 </resources>

@@ -1,4 +1,4 @@
-package com.bamboo.style.extensions
+package com.app.moneybasetest.util.extensions
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

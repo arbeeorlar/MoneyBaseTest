@@ -1,7 +1,7 @@
-package com.piashcse.hilt_mvvm_compose_movie.di
+package com.app.moneybasetest.di
 
-import com.piashcse.hilt_mvvm_compose_movie.data.datasource.remote.ApiService
-import com.piashcse.hilt_mvvm_compose_movie.data.repository.MovieRepository
+import com.app.moneybasetest.data.datascource.remote.ApiService
+import com.app.moneybasetest.data.repository.StockRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -16,10 +16,10 @@ object RepositoryModule {
      */
     @Singleton
     @Provides
-    fun provideMovieRepository(
+    fun provideStockRepository(
         apiService: ApiService,
-    ): MovieRepository {
-        return MovieRepository(
+    ): StockRepository {
+        return StockRepository(
             apiService
         )
     }

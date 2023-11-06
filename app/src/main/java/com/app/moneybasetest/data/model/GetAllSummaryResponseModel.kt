@@ -1,15 +1,18 @@
 package com.app.moneybasetest.data.model
 
+import com.google.gson.annotations.SerializedName
+
 data class GetAllSummaryResponseModel(
     val marketSummaryAndSparkResponse: MarketSummaryAndSparkResponse
 )
 
 data class MarketSummaryAndSparkResponse(
     val error: Any? = null,
-    val result: List<Result>
+    @SerializedName("result")
+    val result: List<StockItem>
 )
 
-data class Result(
+data class StockItem(
     val cryptoTradeable: Boolean,
     val customPriceAlertConfidence: String,
     val exchange: String,
