@@ -1,9 +1,9 @@
 package com.app.moneybasetest.data.model
 
 data class GetItemSummaryResponseModel(
-    val price: Price,
-    val quoteType: QuoteType,
-    val summaryDetail: SummaryDetail,
+    val price: Price? = null,
+    val quoteType: QuoteType? = null,
+    val summaryDetail: SummaryDetail? = null,
     val symbol: String
 )
 
