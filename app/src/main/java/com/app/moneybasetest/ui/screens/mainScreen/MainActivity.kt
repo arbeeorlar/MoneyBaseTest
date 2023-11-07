@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
@@ -14,6 +15,7 @@ import com.app.moneybasetest.data.model.StockItem
 import com.app.moneybasetest.databinding.ActivityMainBinding
 import com.app.moneybasetest.ui.screens.detail.StockDetailActivity
 import com.app.moneybasetest.util.extensions.viewBinding
+import com.app.moneybasetest.util.network.DataState
 import com.app.moneybasetest.util.network.DataState.Success
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.Timer
@@ -92,15 +94,25 @@ class MainActivity : AppCompatActivity() {
         mainAdapter.notifyDataSetChanged()
     }
     private fun setupObserver() {
-        viewModel.stockItems.observe(this, Observer { it ->
-            if (it is Success<GetAllSummaryResponseModel>) {
-               it.data.marketSummaryAndSparkResponse.result.forEach { data ->
-                    stockItems.add(data)
+        viewModel.stockItems.observe(this) { dataState ->
+            when (dataState) {
+                is DataState.Success -> {
+                    dataState.data.marketSummaryAndSparkResponse.result.forEach { data ->
+                        stockItems.add(data)
+                    }
+                    viewModel.stockArray.postValue(stockItems)
+                    renderList(stockItems)
                 }
-                viewModel.stockArray.postValue(stockItems)
-                renderList(stockItems)
+                is DataState.Error -> {
+                    val errorMessage = dataState.exception.message
+                    Toast.makeText(applicationContext,errorMessage,Toast.LENGTH_LONG).show()
+
+                }
+                is DataState.Loading -> {
+                    // Handle loading state, e.g., show a progress indicator
+                }
             }
-        })
+        }
     }
 
 }
