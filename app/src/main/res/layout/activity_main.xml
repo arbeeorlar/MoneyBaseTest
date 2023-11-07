@@ -99,8 +99,16 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/view_recycler_stock_list"
+            android:visibility="gone"
             tools:listitem="@layout/item_stock_list_layout"
             />
+
+        <ProgressBar
+            android:layout_gravity="center"
+            android:id="@+id/progressBar"
+            android:visibility="gone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
 
 
 

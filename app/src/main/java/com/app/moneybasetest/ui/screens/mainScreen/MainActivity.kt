@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
+import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -96,19 +97,24 @@ class MainActivity : AppCompatActivity() {
     private fun setupObserver() {
         viewModel.stockItems.observe(this) { dataState ->
             when (dataState) {
-                is DataState.Success -> {
+                is Success -> {
                     dataState.data.marketSummaryAndSparkResponse.result.forEach { data ->
                         stockItems.add(data)
                     }
                     viewModel.stockArray.postValue(stockItems)
+                    binding.viewRecyclerStockList.visibility = View.VISIBLE
+                    binding.progressBar.visibility =  View.GONE
                     renderList(stockItems)
                 }
                 is DataState.Error -> {
+
                     val errorMessage = dataState.exception.message
                     Toast.makeText(applicationContext,errorMessage,Toast.LENGTH_LONG).show()
 
                 }
                 is DataState.Loading -> {
+                    binding.viewRecyclerStockList.visibility = View.GONE
+                    binding.progressBar.visibility =  View.VISIBLE
                     // Handle loading state, e.g., show a progress indicator
                 }
             }

@@ -33,10 +33,6 @@ class MainViewModel @Inject constructor(private val repo: StockRepository) : Vie
             withContext(Dispatchers.Main) {
                 repo.getAllStocks().collect{
                     stockItems.value =  it
-
-                    //uncommenting the counter
-                   // will work but the Yahoo finacnce
-                // subscription is on basic
                    // counter.start()
                 }
             }
