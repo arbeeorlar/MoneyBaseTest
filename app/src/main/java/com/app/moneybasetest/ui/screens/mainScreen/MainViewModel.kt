@@ -1,6 +1,8 @@
 package com.app.moneybasetest.ui.screens.mainScreen
 
 import android.os.CountDownTimer
+import android.os.Handler
+import android.os.Looper
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -20,9 +22,20 @@ import javax.inject.Inject
 class MainViewModel @Inject constructor(private val repo: StockRepository) : ViewModel() {
     var stockItems: MutableLiveData<DataState<GetAllSummaryResponseModel>> = MutableLiveData(null);
     val stockArray: MutableLiveData<ArrayList<StockItem>> = MutableLiveData(null);
-    val counter = Counter(this)
+    private val handler = Handler(Looper.getMainLooper())
+
     init {
         getAllSummary()
+        scheduleGetAllSummary()
+    }
+
+
+    private fun scheduleGetAllSummary() {
+        handler.postDelayed({
+            getAllSummary()
+            // Schedule the next execution after 8 seconds
+            scheduleGetAllSummary()
+        }, 8000)
     }
 
 
@@ -30,11 +43,15 @@ class MainViewModel @Inject constructor(private val repo: StockRepository) : Vie
 
     fun getAllSummary() {
         viewModelScope.launch(Dispatchers.IO) {
-            withContext(Dispatchers.Main) {
-                repo.getAllStocks().collect{
-                    stockItems.value =  it
-                   // counter.start()
+            try {
+                withContext(Dispatchers.Main) {
+                    repo.getAllStocks().collect {
+                        stockItems.value = it
+                        // counter.start()
+                    }
                 }
+            }catch (e: Exception){
+                //stockItems.postValue(DataState.Error(e))
             }
         }
     }

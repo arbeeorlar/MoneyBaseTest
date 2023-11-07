@@ -76,20 +76,5 @@ class MainViewModelTest {
     }
 }
 
-class CounterTest {
 
-    @Test
-    fun testCounterStart() {
-        val viewModel = Mockito.mock(MainViewModel::class.java)
-        val counter = Counter(viewModel)
-        val timer = Mockito.mock(Timer::class.java)
-        val timerTask = Mockito.mock(TimerTask::class.java)
-        Mockito.`when`(timer.schedule(Mockito.any(), Mockito.anyLong(), Mockito.anyLong())).thenAnswer {
-            val task = it.arguments[0] as TimerTask
-            task.run()
-        }
-        counter.start()
-        Mockito.verify(viewModel).getAllSummary()
-    }
-}
 
