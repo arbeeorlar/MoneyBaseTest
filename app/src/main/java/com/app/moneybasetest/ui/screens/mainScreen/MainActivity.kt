@@ -64,7 +64,7 @@ class MainActivity : AppCompatActivity() {
                 filteredStockItems.clear()
                 stockItems
                     .filter {
-                        (it.exchange.contains(s.toString()) || it.symbol.contains(s.toString()) )
+                        (it.exchange.lowercase().contains(s.toString()) || it.symbol.lowercase().contains(s.toString()) )
                     }
                     .forEach {
 
