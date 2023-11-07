@@ -10,10 +10,13 @@ import com.app.moneybasetest.ui.screens.mainScreen.Counter
 import com.app.moneybasetest.ui.screens.mainScreen.MainViewModel
 import com.app.moneybasetest.util.network.DataState
 import kotlinx.coroutines.Dispatchers
+//import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.test.setMain
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.TestCoroutineDispatcher
+import kotlinx.coroutines.test.TestCoroutineScope
 import kotlinx.coroutines.test.runBlockingTest
 import org.junit.Before
 import org.junit.Rule
@@ -22,6 +25,7 @@ import org.mockito.Mock
 import org.mockito.Mockito
 import org.mockito.MockitoAnnotations
 import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.setMain
 import java.lang.Exception
 import java.util.Timer
 import java.util.TimerTask
@@ -34,6 +38,7 @@ class MainViewModelTest {
     val instantExecutorRule = InstantTaskExecutorRule()
 
     private val testDispatcher = TestCoroutineDispatcher()
+    private lateinit var testScope: TestCoroutineScope
 
     @Mock
     private lateinit var repo: StockRepository
@@ -44,10 +49,12 @@ class MainViewModelTest {
     @Before
     fun setup() {
         MockitoAnnotations.initMocks(this)
+        testScope = TestCoroutineScope(testDispatcher)
     }
 
     @Test
-    fun testGetAllSummarySuccess() = testDispatcher.runBlockingTest {
+    fun testGetAllSummarySuccess() = testScope.runBlockingTest {
+        //Dispatchers.setMain(this)
         val viewModel = MainViewModel(repo)
         viewModel.stockItems.observeForever(stockItemsObserver)
         val fakeResponse = DataState.Success(GetAllSummaryResponseModel(
@@ -59,7 +66,7 @@ class MainViewModelTest {
     }
 
     @Test
-    fun testGetAllSummaryFailure() = testDispatcher.runBlockingTest {
+    fun testGetAllSummaryFailure() = testScope.runBlockingTest {
         val viewModel = MainViewModel(repo)
         viewModel.stockItems.observeForever(stockItemsObserver)
         val fakeError = DataState.Error(Exception("Failed to fetch all summary"))
