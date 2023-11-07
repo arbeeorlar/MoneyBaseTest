@@ -50,7 +50,7 @@ class StockDetailActivity : AppCompatActivity() {
     private fun renderUI(item : GetItemSummaryResponseModel){
 
         binding.firstLabel.text = "Price : "
-        binding.firstValue.text = item.price.quoteSourceName
+        binding.firstValue.text = item.price!!.quoteSourceName
 
 
     }

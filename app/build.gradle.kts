@@ -94,6 +94,7 @@ dependencies {
 
     testImplementation ("junit:junit:4.13.2")
     testImplementation ("org.mockito:mockito-core:4.0.0")
+    testImplementation ("org.mockito:mockito-inline:3.12.4")
     testImplementation ("android.arch.core:core-testing:1.1.1")
     testImplementation ("com.nhaarman.mockitokotlin2:mockito-kotlin:2.1.0")
     testImplementation ("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.7.3")

@@ -65,7 +65,7 @@ class StockDetailViewModelTest {
     fun testGetStockItemFailure() = testDispatcher.runBlockingTest {
         val viewModel = StockDetailViewModel(repo)
         viewModel.stockObjectItems.observeForever(stockObjectItemsObserver)
-        val fakeError = DataState.Error(Exception(message = "Failed to fetch stock details" ))
+        val fakeError = DataState.Error(Exception("Failed to fetch stock details" ))
         Mockito.`when`(repo.getStockDetail(Mockito.anyString())).thenReturn(flowOf(fakeError))
         viewModel.getStockItem("InvalidSymbol") // Use an invalid stock symbol
         Mockito.verify(stockObjectItemsObserver).onChanged(fakeError)
