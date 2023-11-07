@@ -38,6 +38,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
         setupUI()
         setupObserver()
+        showError()
         searchModule()
 
     }
@@ -117,6 +118,15 @@ class MainActivity : AppCompatActivity() {
                     binding.progressBar.visibility =  View.VISIBLE
                     // Handle loading state, e.g., show a progress indicator
                 }
+            }
+        }
+    }
+
+    private fun showError(){
+        viewModel.errorMessage.observe(this) { errorMessage ->
+            if (errorMessage != null) {
+                // Display the error message in your UI, for example, in a TextView
+                Toast.makeText(applicationContext,errorMessage,Toast.LENGTH_LONG).show()
             }
         }
     }

@@ -14,6 +14,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import retrofit2.HttpException
 import java.util.Timer
 import java.util.TimerTask
 import javax.inject.Inject
@@ -23,6 +24,7 @@ class MainViewModel @Inject constructor(private val repo: StockRepository) : Vie
     var stockItems: MutableLiveData<DataState<GetAllSummaryResponseModel>> = MutableLiveData(null);
     val stockArray: MutableLiveData<ArrayList<StockItem>> = MutableLiveData(null);
     private val handler = Handler(Looper.getMainLooper())
+    val errorMessage: MutableLiveData<String> = MutableLiveData()
 
     init {
         getAllSummary()
@@ -51,7 +53,11 @@ class MainViewModel @Inject constructor(private val repo: StockRepository) : Vie
                     }
                 }
             }catch (e: Exception){
-                //stockItems.postValue(DataState.Error(e))
+                val errorMessageText = when (e) {
+                    is HttpException -> e.message()
+                    else -> "An error occurred: ${e.message}"
+                }
+                errorMessage.postValue(errorMessageText)
             }
         }
     }
