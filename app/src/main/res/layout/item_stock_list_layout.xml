@@ -63,7 +63,7 @@
                 android:layout_height="wrap_content"
                 android:textColor="@color/gray_dark"
                 app:autoSizeTextType="uniform"
-                android:textAllCaps="true"
+                android:textAllCaps="false"
                 tools:text="AAPL"
                 android:textSize="14sp" />
         </LinearLayout>
@@ -74,7 +74,7 @@
             android:layout_gravity="center"
             android:layout_weight="1"
             android:layout_marginEnd="10dp"
-            app:srcCompat="@drawable/bb_ic_chevron_right_blue_v24" />
+            android:src="@drawable/bb_ic_chevron_right_blue_v24" />
 
 
     </LinearLayout>

@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
 
 <com.google.android.material.appbar.AppBarLayout
@@ -22,6 +23,12 @@
 
     </com.google.android.material.appbar.AppBarLayout>
 
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        android:scrollbars="none"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -68,7 +75,7 @@
 
     <Space
         android:layout_width="match_parent"
-        android:layout_height="38dp" />
+        android:layout_height="18dp" />
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/outlinedTextField"
@@ -99,5 +106,6 @@
 
     </LinearLayout>
 
+    </androidx.core.widget.NestedScrollView>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

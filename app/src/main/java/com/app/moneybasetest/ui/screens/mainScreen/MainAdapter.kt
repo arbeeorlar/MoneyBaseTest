@@ -59,8 +59,8 @@ class MainAdapter(val context: Context,
 
         fun bindItems(item: StockItem) {
             itemView.findViewById<TextView>(R.id.view_text_icon).text = item.fullExchangeName.first().toString()
-            itemView.findViewById<TextView>(R.id.view_stock_title_text).text = item.fullExchangeName
-            itemView.findViewById<TextView>(R.id.view_stock_subtitle_text).text = item.symbol
+            itemView.findViewById<TextView>(R.id.view_stock_title_text).text = "${item.fullExchangeName}(${item.symbol})"
+            itemView.findViewById<TextView>(R.id.view_stock_subtitle_text).text = "Market State: ${item.marketState}"
         }
     }
 

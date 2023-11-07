@@ -18,18 +18,21 @@ import javax.inject.Inject
 
 @HiltViewModel
 class StockDetailViewModel @Inject constructor(private val repo: StockRepository) : ViewModel() {
-    var stockItems: MutableLiveData<DataState<GetItemSummaryResponseModel>> = MutableLiveData(null);
-    val stockItemList: MutableLiveData<List<StockItem>> = MutableLiveData(emptyList());
+    var stockObjectItems: MutableLiveData<DataState<GetItemSummaryResponseModel>> = MutableLiveData(null);
 
-//    fun getAllSummary() {
-//        viewModelScope.launch(Dispatchers.IO) {
-//            withContext(Dispatchers.Main) {
-//                repo.getAllStocks().collect{
-//                    stockItems.value =  it
-//                }
-//            }
-//        }
-//    }
+    var stockSymbol: MutableLiveData<String>  =  MutableLiveData("")
+
+
+
+    fun getStockItem( stockSymbol : String ) {
+        viewModelScope.launch(Dispatchers.IO) {
+            withContext(Dispatchers.Main) {
+                repo.getStockDetail(stockSymbol).collect{
+                    stockObjectItems.postValue(it)
+                }
+            }
+        }
+    }
 
 
 }

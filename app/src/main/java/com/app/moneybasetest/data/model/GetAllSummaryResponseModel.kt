@@ -1,6 +1,7 @@
 package com.app.moneybasetest.data.model
 
 import com.google.gson.annotations.SerializedName
+import java.io.Serializable
 
 data class GetAllSummaryResponseModel(
     val marketSummaryAndSparkResponse: MarketSummaryAndSparkResponse
@@ -28,7 +29,7 @@ data class StockItem(
     val priceHint: Int,
     val quoteType: String,
     val region: String,
-    val regularMarketPreviousClose: RegularMarketPreviousClose,
+   val regularMarketPreviousClose: RegularMarketPreviousClose,
     val regularMarketTime: RegularMarketTime,
     val shortName: String,
     val sourceInterval: Int,
@@ -36,17 +37,17 @@ data class StockItem(
     val symbol: String,
     val tradeable: Boolean,
     val triggerable: Boolean
-)
+): Serializable
 
 data class RegularMarketTime(
     val fmt: String,
     val raw: Int
-)
+): Serializable
 
 data class RegularMarketPreviousClose(
     val fmt: String,
     val raw: Double
-)
+): Serializable
 
 data class Spark(
     val chartPreviousClose: Double,
@@ -57,4 +58,4 @@ data class Spark(
     val start: Int,
     val symbol: String,
     val timestamp: List<Int>
-)
+): Serializable

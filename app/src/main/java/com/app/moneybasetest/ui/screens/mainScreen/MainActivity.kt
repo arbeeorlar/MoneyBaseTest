@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.app.moneybasetest.data.model.GetAllSummaryResponseModel
 import com.app.moneybasetest.data.model.StockItem
 import com.app.moneybasetest.databinding.ActivityMainBinding
+import com.app.moneybasetest.ui.screens.detail.StockDetailActivity
 import com.app.moneybasetest.util.extensions.viewBinding
 import com.app.moneybasetest.util.network.DataState.Success
 import dagger.hilt.android.AndroidEntryPoint
@@ -22,33 +23,30 @@ class MainActivity : AppCompatActivity() {
     private val binding by viewBinding(ActivityMainBinding::inflate)
     var stockItems =  ArrayList<StockItem> ()
     private lateinit var mainAdapter: MainAdapter
-    private var myTimer: Timer? = null
     private val viewModel: MainViewModel by viewModels<MainViewModel>()
-   // val artistDetailViewModel = hiltViewModel<ArtistDetailViewModel>()
 
-    //private val moviesAdapter = MovieListAdapter(emptyList())
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
-        myTimer = Timer()
-        myTimer!!.schedule(object : TimerTask() {
-            override fun run() {
-                viewModel.getAllSummary()
-            }
-        }, 0, 8000) //updating it evry 8seconds
-        viewModel.getAllSummary()
         setupUI()
         setupObserver()
 
+    }
+
+
+
+    override fun onResume() {
+        super.onResume()
     }
 
     private fun setupUI() {
         binding.viewRecyclerStockList.layoutManager = LinearLayoutManager(this)
         // recyclerView.layoutManager =
         mainAdapter = applicationContext?.let {
-            MainAdapter(it, resources, arrayListOf()) {
+            MainAdapter(it, resources, arrayListOf()) { data ->
                 //// move to the next page
+                startActivity(StockDetailActivity.newIntent(this@MainActivity,data))
             }
         }!!
         binding.viewRecyclerStockList.adapter = mainAdapter
