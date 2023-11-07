@@ -19,6 +19,7 @@ import javax.inject.Inject
 @HiltViewModel
 class MainViewModel @Inject constructor(private val repo: StockRepository) : ViewModel() {
     var stockItems: MutableLiveData<DataState<GetAllSummaryResponseModel>> = MutableLiveData(null);
+    val stockArray: MutableLiveData<ArrayList<StockItem>> = MutableLiveData(null);
     val counter = Counter(this)
     init {
         getAllSummary()
@@ -32,6 +33,10 @@ class MainViewModel @Inject constructor(private val repo: StockRepository) : Vie
             withContext(Dispatchers.Main) {
                 repo.getAllStocks().collect{
                     stockItems.value =  it
+
+                    //uncommenting the counter
+                   // will work but the Yahoo finacnce
+                // subscription is on basic
                    // counter.start()
                 }
             }

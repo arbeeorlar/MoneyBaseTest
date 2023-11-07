@@ -36,7 +36,8 @@ class StockDetailActivity : AppCompatActivity() {
         viewModel.getStockItem(stockObject.symbol)
 
 
-        binding.viewStockDetailTopTitle.text = stockObject.symbol
+        binding.viewStockDetailTopTitle.text = stockObject.fullExchangeName
+        binding.viewStockDetailTopSymbol.text = stockObject.symbol
         binding.viewStockName.text = stockObject.fullExchangeName
         binding.viewStockInformation.text = stockObject.market
         binding.viewStockDetailToolbar.setOnClickListener { finish() }
@@ -47,6 +48,10 @@ class StockDetailActivity : AppCompatActivity() {
     }
 
     private fun renderUI(item : GetItemSummaryResponseModel){
+
+        binding.firstLabel.text = "Price : "
+        binding.firstValue.text = item.price.quoteSourceName
+
 
     }
 

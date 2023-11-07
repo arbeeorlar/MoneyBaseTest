@@ -2,6 +2,9 @@ package com.app.moneybasetest.ui.screens.mainScreen
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
+import android.util.Log
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
@@ -22,6 +25,7 @@ class MainActivity : AppCompatActivity() {
 
     private val binding by viewBinding(ActivityMainBinding::inflate)
     var stockItems =  ArrayList<StockItem> ()
+    var filteredStockItems =  ArrayList<StockItem> ()
     private lateinit var mainAdapter: MainAdapter
     private val viewModel: MainViewModel by viewModels<MainViewModel>()
 
@@ -31,6 +35,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
         setupUI()
         setupObserver()
+        searchModule()
 
     }
 
@@ -52,9 +57,34 @@ class MainActivity : AppCompatActivity() {
         binding.viewRecyclerStockList.adapter = mainAdapter
     }
 
+    private fun searchModule(){
+        binding.searchText.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
+                filteredStockItems.clear()
+                stockItems
+                    .filter {
+                        (it.exchange.contains(s.toString()) || it.symbol.contains(s.toString()) )
+                    }
+                    .forEach {
+
+                        filteredStockItems.add(it)
+                    }
+                Log.d("Filtered Bank", filteredStockItems.size.toString())
+                clearData()
+                renderList(filteredStockItems)
+            }
+
+            override fun afterTextChanged(s: Editable) {}
+        });
+    }
 
 
-
+    @SuppressLint("NotifyDataSetChanged")
+    private fun clearData() {
+        mainAdapter.clearData()
+        mainAdapter.notifyDataSetChanged()
+    }
 
     @SuppressLint("NotifyDataSetChanged")
     private fun renderList(items: ArrayList<StockItem>) {
@@ -64,9 +94,10 @@ class MainActivity : AppCompatActivity() {
     private fun setupObserver() {
         viewModel.stockItems.observe(this, Observer { it ->
             if (it is Success<GetAllSummaryResponseModel>) {
-                it.data.marketSummaryAndSparkResponse.result.forEach { data ->
+               it.data.marketSummaryAndSparkResponse.result.forEach { data ->
                     stockItems.add(data)
                 }
+                viewModel.stockArray.postValue(stockItems)
                 renderList(stockItems)
             }
         })
